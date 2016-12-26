@@ -23,9 +23,9 @@ package com.wr.riddles.misc;
  * 3) Keep decrementing right index until we see an even number.
  * 4) If lef < right then swap arr[left] and arr[right]
  */
-public class EvenOdd {
+class EvenOdd {
 
-    public static int[] evensFirst(int[] numbers) {
+    static int[] evensFirst(int[] numbers) {
         int i = 0, j = numbers.length - 1;
         while (i < j) {
             if (numbers[i] % 2 == 0) {
@@ -43,6 +43,26 @@ public class EvenOdd {
                 } else {
                     j--;
                 }
+            }
+        }
+        return numbers;
+    }
+
+    static int[] evensFirst2(int numbers[]) {
+        int i = 0, j = numbers.length - 1;
+        while (i < j) {
+            while (numbers[i] % 2 == 0 && i < j) {
+                i++;
+            }
+            while (numbers[j] % 2 == 1 && i < j) {
+                j--;
+            }
+            if (i < j) {
+                int k = numbers[i];
+                numbers[i] = numbers[j];
+                numbers[j] = k;
+                i++;
+                j--;
             }
         }
         return numbers;

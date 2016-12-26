@@ -16,8 +16,14 @@ public class EvenOddTest {
     }
 
     @Test(dataProvider = "numbers")
-    public void testNumbers(int[] input, int[] expected) throws Exception {
+    public void testEvensFirst(int[] input, int[] expected) throws Exception {
         int[] actual = EvenOdd.evensFirst(input);
+        Assert.assertEquals(actual, expected);
+    }
+
+    @Test(dataProvider = "numbers")
+    public void testEvensFirst2(int[] input, int[] expected) throws Exception {
+        int[] actual = EvenOdd.evensFirst2(input);
         Assert.assertEquals(actual, expected);
     }
 }
