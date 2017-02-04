@@ -15,19 +15,20 @@ public class MapBasedLFUCache<K, V> implements Cache<K, V> {
 
     @Override
     public void add(K key, V value) {
-        if (cache.size() < size) {
-            if (cache.containsKey(key)) {
-                cache.put(key, new Entry<>(value, cache.get(key).frequency++));
-            } else {
-                cache.put(key, new Entry<>(value));
-            }
-        } else {
+        if (cache.size() >= size) {
             cache.entrySet()
                     .stream()
                     .min((o1, o2) -> o1.getValue().frequency < o2.getValue().frequency ? -1 :
                             o1.getValue().frequency > o2.getValue().frequency ? +1 : 0)
                     .ifPresent(entry -> cache.remove(entry.getKey()));
+        }
+        wrapAndPut(key, value);
+    }
 
+    private void wrapAndPut(K key, V value) {
+        if (cache.containsKey(key)) {
+            cache.put(key, new Entry<>(value, cache.get(key).frequency++));
+        } else {
             cache.put(key, new Entry<>(value));
         }
     }
