@@ -14,6 +14,7 @@ public class LFUCacheTest {
     public static Object[][] cache() {
         return new Object[][]{
                 {new MapBasedLFUCache<>(3)},
+                {new PriorityQueueLFUCache<>(3)},
 
         };
     }
@@ -28,8 +29,8 @@ public class LFUCacheTest {
         assertThat(cache.get("2"), equalTo("2"));
         assertThat(cache.get("3"), equalTo("3"));
 
-        cache.get("1");
         cache.get("2");
+        cache.get("1");
 
         cache.add("4", "4");
         assertThat(cache.get("1"), equalTo("1"));
