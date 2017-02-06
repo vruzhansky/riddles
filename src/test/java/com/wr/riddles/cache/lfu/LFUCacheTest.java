@@ -15,6 +15,7 @@ public class LFUCacheTest {
         return new Object[][]{
                 {new MapBasedLFUCache<>(3)},
                 {new PriorityQueueLFUCache<>(3)},
+                {new LinkedListBasedLFUCache<>(3)},
 
         };
     }

@@ -8,7 +8,7 @@ import java.util.Map;
 public class LinkedListBasedLFUCache<K, V> implements Cache<K, V> {
     private final int size;
     private final Map<K, Entry<K, V>> cache = new HashMap<>();
-    private FrequencyNode<K, V> frequencies;
+    private FrequencyNode<K, V> firstFrequency;
 
     public LinkedListBasedLFUCache(int size) {
         this.size = size;
@@ -17,41 +17,39 @@ public class LinkedListBasedLFUCache<K, V> implements Cache<K, V> {
     @Override
     public void add(K key, V value) {
         if (cache.size() >= size) {
-            cache.remove(frequencies.firstEntry.key);
-            if (frequencies.lastEntry == frequencies.firstEntry) {
-                frequencies.lastEntry = frequencies.firstEntry.next;
-            }
-            frequencies.firstEntry = frequencies.firstEntry.next;
+            cache.remove(firstFrequency.firstEntry.key);
+            firstFrequency.firstEntry.remove();
+            removeFrequencyNode(firstFrequency);
         }
         wrapAndPut(key, value);
     }
 
     private void wrapAndPut(K key, V value) {
-        Entry<K, V> entry;
+        Entry<K, V> entry = new Entry<>(key, value);
 
         if (cache.containsKey(key)) {
             Entry<K, V> oldEntry = cache.get(key);
-            queue.remove(oldEntry);
-            entry = new Entry<>(key, value, oldEntry.frequencyNode++);
+            oldEntry.remove();
+            entry.frequencyNode = oldEntry.frequencyNode;
+            entry.moveToNextFrequencyNode();
+
+            removeFrequencyNode(oldEntry.frequencyNode);
         } else {
-            entry = new Entry<>(key, value);
-            if (frequencies.frequency == 0) {
-                entry.frequencyNode = frequencies;
-                entry.prev = frequencies.lastEntry;
+            if (firstFrequency == null) {
+                firstFrequency = new FrequencyNode<>(0, entry);
+            } else if (firstFrequency.frequency == 0) {
+                entry.frequencyNode = firstFrequency;
 
-                frequencies.lastEntry.next = entry;
+                entry.append(firstFrequency.firstEntry);
+                firstFrequency.firstEntry = entry;
             } else {
-                FrequencyNode<K, V> freq = new FrequencyNode<>(0, entry);
-                freq.next = frequencies;
-
-                entry.frequencyNode = freq;
-
-                frequencies = freq;
+                FrequencyNode<K, V> newFrequency = new FrequencyNode<>(0, entry);
+                newFrequency.append(firstFrequency);
+                firstFrequency = newFrequency;
             }
         }
 
         cache.put(key, entry);
-        queue.add(entry);
     }
 
     @Override
@@ -59,13 +57,7 @@ public class LinkedListBasedLFUCache<K, V> implements Cache<K, V> {
         Entry<K, V> removedEntry = cache.remove(key);
         if (removedEntry != null) {
             removedEntry.remove();
-            FrequencyNode<K, V> removedFrequencyNode = removedEntry.frequencyNode;
-            if (removedFrequencyNode.isEmpty()) {
-                removedFrequencyNode.remove();
-                if (removedFrequencyNode == frequencies) {
-                    frequencies = removedFrequencyNode.next;
-                }
-            }
+            removeFrequencyNode(removedEntry.frequencyNode);
         }
     }
 
@@ -73,11 +65,20 @@ public class LinkedListBasedLFUCache<K, V> implements Cache<K, V> {
     public V get(K key) {
         Entry<K, V> entry = cache.get(key);
         if (entry != null) {
-            if (entry.frequencyNode.next != null) {
-
-            }
+            entry.remove();
+            entry.moveToNextFrequencyNode();
+            return entry.value;
         } else {
             return null;
+        }
+    }
+
+    private void removeFrequencyNode(FrequencyNode<K, V> frequencyNode) {
+        if (frequencyNode.isEmpty()) {
+            frequencyNode.remove();
+            if (frequencyNode == firstFrequency) {
+                firstFrequency = frequencyNode.next;
+            }
         }
     }
 
@@ -85,7 +86,7 @@ public class LinkedListBasedLFUCache<K, V> implements Cache<K, V> {
         protected T prev, next;
 
         @SuppressWarnings("unchecked")
-        protected void add(T node) {
+        protected void append(T node) {
             if (next != null) {
                 this.next = node;
                 node.prev = (T) this;
@@ -129,35 +130,20 @@ public class LinkedListBasedLFUCache<K, V> implements Cache<K, V> {
             this.value = value;
         }
 
-        private V get() {
+        private void moveToNextFrequencyNode() {
             FrequencyNode<K, V> nextFrequencyNode = frequencyNode.next;
-            if (nextFrequencyNode != null) {
+            if (nextFrequencyNode == null) {
+                frequencyNode.append(new FrequencyNode<>(frequencyNode.frequency + 1, this));
+            } else {
                 if (nextFrequencyNode.frequency == frequencyNode.frequency + 1) {
-                    attachTo(nextFrequencyNode.lastEntry);
+                    append(nextFrequencyNode.firstEntry);
+                    frequencyNode = nextFrequencyNode;
+                    frequencyNode.firstEntry = this;
                 } else {
                     FrequencyNode<K, V> newFrequencyNode = new FrequencyNode<>(frequencyNode.frequency + 1, this);
-                    frequencyNode.add(newFrequencyNode);
+                    frequencyNode.append(newFrequencyNode);
                 }
             }
-
-            return value;
-        }
-
-        private void moveToFrequencyNode(FrequencyNode<K, V> newFreqNode) {
-            if (this.prev != null) {
-                this.prev.next = this.next;
-            } else {
-                // means it is firstEntry
-                this.frequencyNode.firstEntry = this.next;
-            }
-            newFreqNode.
-                    this.prev = null;
-            this.next = null;
-        }
-
-        private void attachTo(Entry<K, V> to) {
-            this.prev = to;
-            to.next = this;
         }
     }
 }
