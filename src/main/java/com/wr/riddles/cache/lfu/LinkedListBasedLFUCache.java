@@ -8,7 +8,7 @@ import java.util.Map;
 public class LinkedListBasedLFUCache<K, V> implements Cache<K, V> {
     private final int size;
     private final Map<K, Entry<K, V>> cache = new HashMap<>();
-    private FrequencyNode<K, V> firstFrequency;
+    private FrequencyNode<K, V> firstFrequency = new FrequencyNode<>(0);
 
     public LinkedListBasedLFUCache(int size) {
         this.size = size;
@@ -35,9 +35,7 @@ public class LinkedListBasedLFUCache<K, V> implements Cache<K, V> {
 
             removeFrequencyNode(oldEntry.frequencyNode);
         } else {
-            if (firstFrequency == null) {
-                firstFrequency = new FrequencyNode<>(0, entry);
-            } else if (firstFrequency.frequency == 0) {
+            if (firstFrequency.frequency == 0) {
                 entry.frequencyNode = firstFrequency;
 
                 entry.append(firstFrequency.firstEntry);
@@ -108,6 +106,10 @@ public class LinkedListBasedLFUCache<K, V> implements Cache<K, V> {
 
         private Entry<K, V> firstEntry;
 
+        private FrequencyNode(int frequency) {
+            this.frequency = frequency;
+        }
+
         private FrequencyNode(int frequency, Entry<K, V> entry) {
             this.frequency = frequency;
             this.firstEntry = entry;
@@ -116,6 +118,14 @@ public class LinkedListBasedLFUCache<K, V> implements Cache<K, V> {
 
         private boolean isEmpty() {
             return firstEntry == null;
+        }
+
+        private FrequencyNode<K, V> removeEmpty() {
+            if (isEmpty()) {
+                remove();
+                return next;
+            }
+            return this;
         }
     }
 
