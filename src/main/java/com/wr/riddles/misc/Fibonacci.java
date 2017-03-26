@@ -22,7 +22,7 @@ class Fibonacci {
         if (n < memo.size()) {
             return memo.get(n);
         } else {
-            int calculated = fibonacci(n - 1) + fibonacci(n - 2);
+            int calculated = fibonacciMemo(n - 1) + fibonacciMemo(n - 2);
             memo.add(calculated);
             return calculated;
         }
