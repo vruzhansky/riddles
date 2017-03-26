@@ -31,7 +31,7 @@ public class FibonacciTest {
 
     @Test(dataProvider = "numbers")
     public void testFibonacciMemorized(int input, int expected) throws Exception {
-        int actual = Fibonacci.fibonacci(input);
+        int actual = Fibonacci.fibonacciMemo(input);
         Assert.assertEquals(actual, expected);
     }
 }

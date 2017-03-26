@@ -19,7 +19,7 @@ class Fibonacci {
     }
 
     static int fibonacciMemo(int n) {
-        Integer memorized = memo.get(n);
+        Integer memorized = n < memo.size() ? memo.get(n) : null;
         if (memorized != null) {
             return memorized;
         } else {
