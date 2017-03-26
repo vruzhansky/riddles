@@ -19,9 +19,8 @@ class Fibonacci {
     }
 
     static int fibonacciMemo(int n) {
-        Integer memorized = n < memo.size() ? memo.get(n) : null;
-        if (memorized != null) {
-            return memorized;
+        if (n < memo.size()) {
+            return memo.get(n);
         } else {
             int calculated = fibonacci(n - 1) + fibonacci(n - 2);
             memo.add(calculated);
