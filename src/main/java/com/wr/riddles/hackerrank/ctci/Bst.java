@@ -12,24 +12,9 @@ public class Bst {
     }
 
     boolean checkBST(Node node, int lowConstraint, int topConstraint) {
-        if (node == null) {
-            return true;
-        }
-        boolean isBst = true;
-        if (node.left != null) {
-            isBst = checkConstraints(node.left.data, lowConstraint, topConstraint)
-                    && node.data > node.left.data
-                    && checkBST(node.left, lowConstraint, Math.min(node.data, topConstraint));
-        }
-        if (node.right != null) {
-            isBst &= checkConstraints(node.right.data, lowConstraint, topConstraint)
-                    && node.data < node.right.data
-                    && checkBST(node.right, Math.max(node.data, lowConstraint), topConstraint);
-        }
-        return isBst;
-    }
-
-    boolean checkConstraints(int val, int low, int top) {
-        return low < val && val < top;
+        return node == null ||
+                lowConstraint < node.data && node.data < topConstraint
+                        && checkBST(node.left, lowConstraint, node.data)
+                        && checkBST(node.right, node.data, topConstraint);
     }
 }
