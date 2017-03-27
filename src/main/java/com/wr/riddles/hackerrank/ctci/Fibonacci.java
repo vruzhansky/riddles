@@ -1,11 +1,11 @@
-package com.wr.riddles.misc;
+package com.wr.riddles.hackerrank.ctci;
 
 import java.util.ArrayList;
 import java.util.List;
 
-class Fibonacci {
+public class Fibonacci {
 
-    static int fibonacci(int n) {
+    public static int fibonacci(int n) {
         if (n == 0) return 0;
         else if (n == 1) return 1;
         else return fibonacci(n - 1) + fibonacci(n - 2);
@@ -18,7 +18,7 @@ class Fibonacci {
         memo.add(1);
     }
 
-    static int fibonacciMemo(int n) {
+    public static int fibonacciMemo(int n) {
         if (n < memo.size()) {
             return memo.get(n);
         } else {

@@ -1,5 +1,6 @@
 package com.wr.riddles.misc;
 
+import com.wr.riddles.hackerrank.ctci.Fibonacci;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
