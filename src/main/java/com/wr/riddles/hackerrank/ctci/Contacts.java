@@ -19,7 +19,8 @@ public class Contacts {
             }
 
             if ("find".equals(op)) {
-                System.out.println(countMatches(findMatch(contact, names)));
+                Node match = findMatch(contact, names);
+                System.out.println(match != null ? match.matches : 0);
             }
         }
     }
@@ -27,6 +28,7 @@ public class Contacts {
     static class Node {
         Map<Character, Node> nextChars = new HashMap<>();
         boolean isWord;
+        int matches;
     }
 
     static void addContact(String contact, Node node) {
@@ -35,6 +37,7 @@ public class Contacts {
             return;
         }
         Node nextNode = node.nextChars.computeIfAbsent(contact.charAt(0), k -> new Node());
+        nextNode.matches++;
         addContact(contact.substring(1), nextNode);
     }
 
@@ -48,16 +51,5 @@ public class Contacts {
         } else {
             return null;
         }
-    }
-
-    static int countMatches(Node node) {
-        if (node == null) {
-            return 0;
-        }
-        int matches = node.isWord ? 1 : 0;
-        for (Node nextNode : node.nextChars.values()) {
-            matches += countMatches(nextNode);
-        }
-        return matches;
     }
 }
