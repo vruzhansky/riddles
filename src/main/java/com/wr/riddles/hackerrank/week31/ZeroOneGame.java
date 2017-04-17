@@ -2,6 +2,9 @@ package com.wr.riddles.hackerrank.week31;
 
 import java.util.Scanner;
 
+/**
+ * See <a href="https://www.hackerrank.com/contests/w31/challenges/zero-one-game">https://www.hackerrank.com/contests/w31/challenges/zero-one-game</a>
+ */
 public class ZeroOneGame {
 
     public static void main(String[] args) {
