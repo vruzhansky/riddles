@@ -12,4 +12,38 @@ package com.wr.riddles.misc;
  * Now we have to minimize the cost of his travel
  */
 public class CostMinimizing {
+    private final int[] days;
+
+    public CostMinimizing(int[] days) {
+        this.days = days;
+    }
+
+    public int cost() {
+        int[] costs = new int[days.length];
+
+        for (int i = days.length - 1; i >= 0; i--) {
+            if (i == days.length - 1) {
+                costs[i] = 2;
+            } else {
+                int temp = costs[i + 1] + 2;
+                if (temp > 25) {
+                    costs[i] = Math.min(temp, 25 + costForDay(days[i] + 29));
+                } else if (temp > 7) {
+                    costs[i] = Math.min(temp, 7 + costForDay(days[i] + 6));
+                } else {
+                    costs[i] = temp;
+                }
+            }
+        }
+        return costs[0];
+    }
+
+    private int costForDay(int day) {
+        int cost = 0, i = days.length - 1;
+        while (day < days[i]) {
+            i--;
+            cost = days[i];
+        }
+        return cost;
+    }
 }
