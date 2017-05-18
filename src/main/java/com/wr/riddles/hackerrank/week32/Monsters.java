@@ -11,15 +11,15 @@ public class Monsters {
     static int getMaxMonsters(int n, int hit, int t, int[] h) {
         Arrays.sort(h);
         int max = 0;
-        for (int i = 0; i < t; i++) {
-            int j = 0;
-            while (h[j] < 1 || j > n - 1) {
-                j++;
+        int i = 0;
+        while (i < n) {
+            h[i] -= hit;
+            if (h[i] < 1) {
+                max++;
+                i++;
             }
-            // all monsters are dead
-            if (j == n) break;
-            h[j] -= hit;
-            if (h[j] < 1) max++;
+            t--;
+            if (t == 0) break;
         }
         return max;
     }
