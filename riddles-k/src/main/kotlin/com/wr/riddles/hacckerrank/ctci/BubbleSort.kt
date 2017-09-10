@@ -3,12 +3,11 @@ package com.wr.riddles.hacckerrank.ctci
 import java.util.regex.Pattern
 
 fun main(args: Array<String>) {
-    val n = readLine()?.trim().orEmpty().toInt()
-    val a = readLine()
-            ?.trim()
-            ?.split(Pattern.compile("\\s+"))
-            ?.map(String::toInt)
-            .orEmpty()
+    val n = readLine().orEmpty().trim().toInt()
+    val a = readLine().orEmpty()
+            .trim()
+            .split(Pattern.compile("\\s+"))
+            .map(String::toInt)
             .toTypedArray()
     var numOfSwaps = 0
     for (i in 0 until n) {
