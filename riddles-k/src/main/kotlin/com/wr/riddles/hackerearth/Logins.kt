@@ -7,6 +7,10 @@ fun main(args: Array<String>) {
     val logins = Node()
     for (i in 1..num) {
         val login = readLine()!!
+        if (num == 1) {
+            println(login)
+            return
+        }
         val match = add(login, logins)
         if (match == null) {
             println(login)
@@ -30,11 +34,11 @@ fun add(login: String, node: Node): Node? {
     }
 }
 
-fun suggest(suffix: Long, node: Node): Long {
+fun suggest(suffix: Int, node: Node): Int {
     var suff = suffix
     do {
         val existing = add(suff.toString(), node)
-        if (existing !=null) {
+        if (existing != null) {
             node.suggest++
             suff = node.suggest
         }
@@ -45,5 +49,5 @@ fun suggest(suffix: Long, node: Node): Long {
 class Node {
     var nextChars: MutableMap<Char, Node> = HashMap()
     var isWord: Boolean = false
-    var suggest: Long = 0
+    var suggest: Int = 0
 }
