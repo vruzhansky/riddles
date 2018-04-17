@@ -46,7 +46,7 @@ fun suggest(node: Node): Int {
 }
 
 class Node {
-    var nextChars: MutableMap<Char, Node> = HashMap()
+    val nextChars: MutableMap<Char, Node> = HashMap()
     var isWord: Boolean = false
     var suggest: Int = 0
 }
