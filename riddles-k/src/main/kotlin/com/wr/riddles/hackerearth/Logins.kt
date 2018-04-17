@@ -4,18 +4,19 @@ import java.util.*
 
 fun main(args: Array<String>) {
     val num = readLine()!!.toInt()
+    if (num == 1) {
+        println(readLine())
+        return
+    }
     val logins = Node()
     for (i in 1..num) {
         val login = readLine()!!
-        if (num == 1) {
-            println(login)
-            return
-        }
+        print(login)
         val match = add(login, logins)
         if (match == null) {
-            println(login)
+            println()
         } else {
-            println(login + suggest(match.suggest, match))
+            println(suggest(match))
         }
     }
 }
@@ -34,16 +35,14 @@ fun add(login: String, node: Node): Node? {
     }
 }
 
-fun suggest(suffix: Int, node: Node): Int {
-    var suff = suffix
+fun suggest(node: Node): Int {
     do {
-        val existing = add(suff.toString(), node)
+        val existing = add(node.suggest.toString(), node)
         if (existing != null) {
             node.suggest++
-            suff = node.suggest
         }
     } while (existing != null)
-    return suff
+    return node.suggest
 }
 
 class Node {
