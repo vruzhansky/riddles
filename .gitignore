@@ -15,3 +15,8 @@ dependency-reduced-pom.xml
 README.html
 .idea
 *.iml
+.DS_Store
+gradle/
+gradlew
+gradlew.bat
+out/
