@@ -29,13 +29,23 @@ repositories {
 
 dependencies {
     compile(kotlin("stdlib-jdk8", kotlinVersion))
-    testCompile("junit", "junit", "4.12")
-    testCompile("org.testng", "testng", "6.9.9")
+    testCompile("org.testng:testng:6.9.9")
 }
 
-configure<JavaPluginConvention> {
+java {
     sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
 }
+
+tasks {
+    "testNg"(Test::class) {
+        useTestNG()
+    }
+}
+val test by tasks.getting(Test::class) {
+    dependsOn("testNg")
+}
+
 val compileKotlin: KotlinCompile by tasks
 compileKotlin.kotlinOptions {
     jvmTarget = "1.8"
