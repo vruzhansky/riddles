@@ -31,9 +31,8 @@ tasks {
         useTestNG()
     }
 }
-val test by tasks.getting(Test::class) {
-    dependsOn("testNg")
-}
+val test: Test by tasks
+test.dependsOn("testNg")
 
 val compileKotlin: KotlinCompile by tasks
 compileKotlin.kotlinOptions {
