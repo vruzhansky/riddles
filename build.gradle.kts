@@ -31,7 +31,7 @@ tasks {
         useTestNG()
     }
 }
-val test: Test by tasks
+val test by tasks
 test.dependsOn("testNg")
 
 val compileKotlin: KotlinCompile by tasks
