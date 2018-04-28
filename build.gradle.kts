@@ -4,17 +4,6 @@ val kotlinVersion: String by extra { "1.2.40" }
 group = "com.wr"
 version = "1.0-SNAPSHOT"
 
-buildscript {
-
-    val kotlinVersion: String by extra { "1.2.40" }
-    repositories {
-        mavenCentral()
-    }
-    dependencies {
-        classpath(kotlin("gradle-plugin", kotlinVersion))
-    }
-}
-
 plugins {
     java
     kotlin("jvm") version "1.2.40"
