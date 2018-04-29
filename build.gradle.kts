@@ -1,12 +1,12 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
-val kotlinVersion: String by extra { "1.2.40" }
+val kotlinVersion: String by extra { "1.2.41" }
 group = "com.wr"
 version = "1.0-SNAPSHOT"
 
 plugins {
     java
-    kotlin("jvm") version "1.2.40"
+    kotlin("jvm") version "1.2.41"
 }
 apply {
     plugin("kotlin")
