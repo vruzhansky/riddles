@@ -1,12 +1,12 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
+group = "com.wr"
+version = "1.0-SNAPSHOT"
+
 // versions
 val kotlinVersion = "1.2.41"
 val junitVersion = "5.2.0"
 val hamcrestVersion = "1.3"
-
-group = "com.wr"
-version = "1.0-SNAPSHOT"
 
 plugins {
     java
