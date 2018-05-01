@@ -12,14 +12,10 @@ plugins {
     java
     kotlin("jvm") version "1.2.41"
 }
-apply {
-    plugin("kotlin")
-}
 
 repositories {
     mavenCentral()
 }
-
 
 dependencies {
     compile(kotlin("stdlib-jdk8:$kotlinVersion"))
