@@ -30,14 +30,15 @@ java {
     targetCompatibility = JavaVersion.VERSION_1_8
 }
 
-val test: Test by tasks
-test.useJUnitPlatform()
-
-val compileKotlin: KotlinCompile by tasks
-compileKotlin.kotlinOptions {
-    jvmTarget = "1.8"
+tasks.withType<Test> {
+    useJUnitPlatform()
 }
-val compileTestKotlin: KotlinCompile by tasks
-compileTestKotlin.kotlinOptions {
-    jvmTarget = "1.8"
+
+tasks.withType<KotlinCompile> {
+    kotlinOptions.jvmTarget = "1.8"
+}
+
+task<Wrapper>("wrapper") {
+    gradleVersion = "4.7"
+    distributionUrl = "https://services.gradle.org/distributions/gradle-$gradleVersion-all.zip"
 }
