@@ -1,27 +1,29 @@
 package com.wr.riddles.cache.lfu;
 
 import com.wr.riddles.cache.Cache;
-import org.testng.annotations.DataProvider;
-import org.testng.annotations.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+
+import java.util.stream.Stream;
 
 import static org.hamcrest.CoreMatchers.equalTo;
-import static org.junit.Assert.assertThat;
-import static org.testng.Assert.assertNull;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
-public class LFUCacheTest {
+class LFUCacheTest {
 
-    @DataProvider(name = "cache")
-    public static Object[][] cache() {
-        return new Object[][]{
-                {new MapBasedLFUCache<>(3)},
-                {new PriorityQueueLFUCache<>(3)},
-                {new LinkedListBasedLFUCache<>(3)},
-
-        };
+    private static Stream<Arguments> cache() {
+        return Stream.of(
+                Arguments.of(new MapBasedLFUCache<>(3)),
+                Arguments.of(new PriorityQueueLFUCache<>(3)),
+                Arguments.of(new LinkedListBasedLFUCache<>(3))
+        );
     }
 
-    @Test(dataProvider = "cache")
-    public void testGet(Cache<String, String> cache) throws Exception {
+    @ParameterizedTest
+    @MethodSource("cache")
+    void testGet(Cache<String, String> cache) {
         cache.add("1", "1");
         cache.add("2", "2");
         cache.add("3", "3");

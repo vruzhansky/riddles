@@ -1,15 +1,16 @@
 package com.wr.riddles.misc;
 
-import org.testng.annotations.Test;
+
+import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.CoreMatchers.equalTo;
-import static org.junit.Assert.assertThat;
-import static org.testng.Assert.assertNull;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
-public class LinkedTest {
+class LinkedTest {
 
     @Test
-    public void testReverse() throws Exception {
+    void testReverse() {
         Linked.Node a = new Linked.Node("a");
         Linked.Node b = new Linked.Node("b");
         Linked.Node c = new Linked.Node("c");

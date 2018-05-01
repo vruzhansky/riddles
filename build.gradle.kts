@@ -18,7 +18,10 @@ repositories {
 
 dependencies {
     compile(kotlin("stdlib-jdk8", kotlinVersion))
-    testCompile("org.testng:testng:6.9.9")
+    testCompile("org.junit.jupiter:junit-jupiter-api:5.2.0")
+    testCompile("org.junit.jupiter:junit-jupiter-params:5.2.0")
+    testCompile("org.hamcrest:hamcrest-all:1.3")
+    testRuntime("org.junit.jupiter:junit-jupiter-engine:5.2.0")
 }
 
 java {
@@ -26,13 +29,8 @@ java {
     targetCompatibility = JavaVersion.VERSION_1_8
 }
 
-tasks {
-    "testNg"(Test::class) {
-        useTestNG()
-    }
-}
-val test by tasks
-test.dependsOn("testNg")
+val test: Test by tasks
+test.useJUnitPlatform()
 
 val compileKotlin: KotlinCompile by tasks
 compileKotlin.kotlinOptions {

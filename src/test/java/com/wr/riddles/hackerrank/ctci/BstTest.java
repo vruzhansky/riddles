@@ -1,11 +1,14 @@
 package com.wr.riddles.hackerrank.ctci;
 
-import org.junit.Assert;
-import org.junit.Test;
 
-public class BstTest {
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+class BstTest {
+
     @Test
-    public void testCheckBST() throws Exception {
+    void testCheckBST() {
         Bst.Node root = new Bst.Node();
         root.data = 4;
 
@@ -32,9 +35,7 @@ public class BstTest {
         root.right.left = left;
         root.right.right = right;
 
-
-        Assert.assertTrue(new Bst().checkBST(root));
-
+        assertTrue(new Bst().checkBST(root));
     }
 
 }

@@ -1,29 +1,35 @@
 package com.wr.riddles.misc;
 
-import org.testng.Assert;
-import org.testng.annotations.DataProvider;
-import org.testng.annotations.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
-public class EvenOddTest {
+import java.util.stream.Stream;
 
-    @DataProvider(name = "numbers")
-    public static Object[][] numbers() {
-        return new Object[][]{
-                {new int[]{4, 5, 6, 7}, new int[]{4, 6, 5, 7}},
-                {new int[]{1, 2, 3, 4, 5, 6, 7, 8, 9}, new int[]{8, 2, 6, 4, 5, 3, 7, 1, 9}},
-                {new int[]{4, 5, 6, 7}, new int[]{4, 6, 5, 7}},
-        };
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
+
+class EvenOddTest {
+
+    private static Stream<Arguments> numbers() {
+        return Stream.of(
+                Arguments.of(new int[]{4, 5, 6, 7}, new int[]{4, 6, 5, 7}),
+                Arguments.of(new int[]{1, 2, 3, 4, 5, 6, 7, 8, 9}, new int[]{8, 2, 6, 4, 5, 3, 7, 1, 9}),
+                Arguments.of(new int[]{4, 5, 6, 7}, new int[]{4, 6, 5, 7})
+        );
     }
 
-    @Test(dataProvider = "numbers")
-    public void testEvensFirst(int[] input, int[] expected) throws Exception {
+    @ParameterizedTest
+    @MethodSource("numbers")
+    void testEvensFirst(int[] input, int[] expected) {
         int[] actual = EvenOdd.evensFirst(input);
-        Assert.assertEquals(actual, expected);
+        assertThat(actual, equalTo(expected));
     }
 
-    @Test(dataProvider = "numbers")
-    public void testEvensFirst2(int[] input, int[] expected) throws Exception {
+    @ParameterizedTest
+    @MethodSource("numbers")
+    void testEvensFirst2(int[] input, int[] expected) {
         int[] actual = EvenOdd.evensFirst2(input);
-        Assert.assertEquals(actual, expected);
+        assertThat(actual, equalTo(expected));
     }
 }
