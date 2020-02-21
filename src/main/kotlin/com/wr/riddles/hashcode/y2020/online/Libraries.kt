@@ -30,6 +30,7 @@ fun main() {
     val outLibs: MutableList<BestLib> = mutableListOf()
     val outLibsIds: MutableList<Int> = mutableListOf()
     val used: MutableSet<Int> = mutableSetOf()
+    var total = 0
     while (remDays > 0) {
         print("----> $remDays")
         libs.asSequence()
@@ -38,13 +39,17 @@ fun main() {
                 .filter { it.score > 0 }
                 .maxBy { it.score }
                 ?.let {
-                    println(" ----> score is ${it.score}, signup is ${it.signupDays}")
+                    println(" ----> score is ${it.score}, signup is ${it.signupDays}, totalBooks is ${it.totalBooks}")
                     outLibs.add(it)
                     used.addAll(it.books)
                     outLibsIds.add(it.id)
                     remDays -= it.signupDays
+                    total += it.totalBooks
                 } ?: break
     }
+
+    println()
+    println("Total ------> $total")
 
     File("$name.out").printWriter().use { out ->
         out.println(outLibs.size)
@@ -67,16 +72,22 @@ data class Lib(val id: Int, val signupDays: Int, val booksPerDay: Int, val books
                     .take(maxBooks.toInt())
                     .toList()
 
-            BestLib(id, signupDays, subList, score(subList, days, remaining))
+            BestLib(id, signupDays, subList, score(subList, days, remaining), scores)
         } else {
-            BestLib(id, signupDays, emptyList(), 0.0)
+            BestLib(id, signupDays, emptyList(), 0.0, scores)
         }
     }
 
     private val maxScore = booksInLib.sumBy { scores[it] }
 
     private fun score(subList: List<Int>, days: Int, remaining: Int) =
-        subList.sumByDouble { scores[it] / maxScore.toDouble()*9.0+1.0*remaining.toDouble()/days }
+            subList.sumByDouble {
+                +1.0 * scores[it] / maxScore
+                +8.0 * remaining / days
+                +9.0 * days / signupDays
+            }
 }
 
-data class BestLib(val id: Int, val signupDays: Int, val books: List<Int>, val score: Double)
+data class BestLib(val id: Int, val signupDays: Int, val books: List<Int>, val score: Double, val scores: List<Int>) {
+    val totalBooks = books.sumBy { scores[it] }
+}
