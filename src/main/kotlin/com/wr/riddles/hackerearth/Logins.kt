@@ -2,7 +2,7 @@ package com.wr.riddles.hackerearth
 
 import java.util.*
 
-fun main(args: Array<String>) {
+fun main() {
     val num = readLine()!!.toInt()
     if (num == 1) {
         println(readLine())

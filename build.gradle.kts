@@ -8,7 +8,7 @@ val hamcrestVersion = "1.3"
 
 plugins {
     java
-    kotlin("jvm") version "1.3.61"
+    kotlin("jvm") version "1.4.0"
 }
 
 repositories {

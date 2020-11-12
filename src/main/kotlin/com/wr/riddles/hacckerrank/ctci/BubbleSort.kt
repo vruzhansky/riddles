@@ -2,7 +2,7 @@ package com.wr.riddles.hacckerrank.ctci
 
 import java.util.regex.Pattern
 
-fun main(args: Array<String>) {
+fun main() {
     val n = readLine().orEmpty().trim().toInt()
     val a = readLine().orEmpty()
             .trim()
