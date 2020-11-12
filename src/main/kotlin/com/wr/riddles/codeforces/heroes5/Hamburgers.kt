@@ -10,7 +10,7 @@ fun main() {
     }
 }
 
-fun solve(coins: List<Long>): Long {
+private fun solve(coins: List<Long>): Long {
     val num = coins.size
     val sorted = coins.sorted()
 
