@@ -26,15 +26,3 @@ private fun solve(str: CharArray): Int {
     }
     return result
 }
-
-//private fun solve(coins: List<Char>): Int {
-//    val num = coins.size
-//    val sorted = coins.sorted()
-//
-//    var max: Long = 0
-//    sorted.forEachIndexed { index, myCoins ->
-//        val result = myCoins * (num - index)
-//        if (result > max) max = result
-//    }
-//    return max
-//}
