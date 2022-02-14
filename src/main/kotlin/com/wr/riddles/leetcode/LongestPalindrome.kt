@@ -23,7 +23,7 @@ fun longestPalindromeDP(s: String): String {
         for (i in 0..j) {
             val condition = s[i] == s[j]
 
-            dp[i][j] = if (j - i > 2) dp[i + 1][j - 1] && condition else condition
+            dp[i][j] = if (j - i > 1) dp[i + 1][j - 1] && condition else condition
 
             if (dp[i][j] && j - i + 1 > max) {
                 max = j - i + 1
